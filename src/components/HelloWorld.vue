@@ -1,42 +1,64 @@
 <script setup>
-import { ref } from 'vue'
+import {ref} from 'vue'
 
-defineProps({
-  msg: String,
-})
+const title = 'Homework 2'
 
-const count = ref(0)
+const users = ref([
+  {id: 1, name: 'Иван', age: 25, hover: false},
+  {id: 2, name: 'Мария', age: 30, hover: false},
+  {id: 3, name: 'Петр', age: 22, hover: false},
+])
+
+const showAge = ref(false)
+const showList = ref(true)
+
+function toggleAge() {
+  showAge.value = !showAge.value
+}
+
+function toggleList() {
+  showList.value = !showList.value
+}
+
+function mouseOver(user) {
+  user.hover = true
+}
+
+function mouseOut(user) {
+  user.hover = false
+}
 </script>
 
 <template>
-  <h1>{{ msg }}</h1>
+  <h1>{{ title }}</h1>
+  <button @click="toggleList">{{ showList ? 'Скрыть список' : 'Показать список' }}</button>
+  <button @click="toggleAge">{{ showAge ? 'Скрыть возраст' : 'Показать возраст' }}</button>
 
-  <div class="card">
-    <button type="button" @click="count++">count is {{ count }}</button>
-    <p>
-      Edit
-      <code>components/HelloWorld.vue</code> to test HMR
-    </p>
-  </div>
-
-  <p>
-    Check out
-    <a href="https://vuejs.org/guide/quick-start.html#local" target="_blank"
-      >create-vue</a
-    >, the official Vue + Vite starter
-  </p>
-  <p>
-    Learn more about IDE Support for Vue in the
-    <a
-      href="https://vuejs.org/guide/scaling-up/tooling.html#ide-support"
-      target="_blank"
-      >Vue Docs Scaling up Guide</a
-    >.
-  </p>
-  <p class="read-the-docs">Click on the Vite and Vue logos to learn more</p>
+  <ul class="list" v-if="showList">
+    <li class="list__item" v-for="user in users" :key="user.id"
+        @mouseover="mouseOver(user)"
+        @mouseout="mouseOut(user)"
+        :style="{ color: user.hover ? 'blue' : 'black' }"
+    >
+      {{ user.name }}
+      <span v-if="showAge"> - {{ user.age }} лет</span>
+    </li>
+  </ul>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
+.list {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
+  margin: 20px 0;
+  padding-left: 0;
+
+  list-style-type: none;
+}
+
 .read-the-docs {
   color: #888;
 }
