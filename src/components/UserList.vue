@@ -1,7 +1,9 @@
 <script setup>
 import {ref} from 'vue'
 
-const title = 'Homework 2'
+defineProps({
+  msg: String,
+})
 
 const users = ref([
   {id: 1, name: 'Иван', age: 25, hover: false},
@@ -30,7 +32,7 @@ function mouseOut(user) {
 </script>
 
 <template>
-  <h1>{{ title }}</h1>
+  <h1>{{ msg }}</h1>
   <button @click="toggleList">{{ showList ? 'Скрыть список' : 'Показать список' }}</button>
   <button @click="toggleAge">{{ showAge ? 'Скрыть возраст' : 'Показать возраст' }}</button>
 
